@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Number Checker</title>
+
+  <!-- Added link to the jQuery Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Added a link to Bootstrap-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+  <div class="jumbotron">
+    <h1 class="text-center">Number Guesser</h1>
+    <h2 class="text-center">See if you can guess the number the computer is thinking of!</h2>
+  </div>
+
+  <div class="container">
+
+    <div class="row">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Computer Pick</h3>
+        </div>
+        <div class="panel-body text-center">
+          <h1 id="computer-pick">???</h1>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">You Pick</h3>
+        </div>
+        <div class="panel-body text-center">
+          <button id="button-1" class="btn btn-danger" value="1"><h1>?</h1></button>
+          <button id="button-2" class="btn btn-danger" value="2"><h1>?</h1></button>
+          <button id="button-3" class="btn btn-danger" value="3"><h1>?</h1></button>
+          <button id="button-4" class="btn btn-danger" value="4"><h1>?</h1></button>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Result</h3>
+        </div>
+        <div class="panel-body text-center">
+          <h1 id="result"></h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // Reset timer milliseconds
+      var timer = 2000;
+
+      // Button guess array
+      var guessArray = [];
+
+      // Sets the guess array length to 4.
+      guessArray.length = 4;
+
+      // Guess counter
+      var count = 0;
+
+      // Initialize random number
+      var computerGuess = Math.floor(Math.random()*4+1);
+
+      // Initializes the computer guess number
+      $("#computer-pick").html(computerGuess);
+
+      // Reset function to reset game
+      var reset = function(){
+        guessArray = [];
+        guessArray.length = 4;
+        computerGuess = Math.floor(Math.random()*4+1);
+        $("#computer-pick").html(computerGuess);
+        count = 0;
+        for (var i = 1; i <= 4; i++){
+          $("#button-" + i).html("<h1>?</h1>");
+        }
+        $("#result").html("");
+      }
+
+
+      // Here we create the on click event that gets the user"s pick
+      $("button").on("click", function() {
+
+        console.log("You clicked a button!!");
+
+        // Add code to have the computer guess a random number between 1 and 4
+        // Then determine which button was clicked
+        // Compare the computer and user guess
+        // Inform the user if the've guessed correctly or incorrectly
+
+
+        var id = parseInt(this.id.match(/([0-9])/g));
+        if (guessArray[id-1] === undefined){
+          var ranNum = Math.floor(Math.random()*4+1);
+          while(guessArray.indexOf(ranNum) !== -1){
+            ranNum = Math.floor(Math.random()*4+1);
+            console.log("I'm in a while loop!")
+          }
+          count++;
+          guessArray[id-1] = ranNum;
+          $("#" + this.id).html("<h1>" + ranNum + "</h1>");
+        }
+
+        // Win/loss
+        if(ranNum === computerGuess && count <= 2){
+          $("#result").html("You Win, you did it with " + count + " tries.");
+          setTimeout(function(){reset()},timer);
+        }
+        else if (count > 2 || guessArray.indexOf(undefined) !== -1){
+          $("#result").html("You lost, try again!");
+          console.log("reset",count);
+          setTimeout(function(){reset()},timer);
+        }
+
+
+      });
+    });
+  </script>
+
+</body>
+
+</html>
