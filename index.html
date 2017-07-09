@@ -117,7 +117,12 @@
 
           // Win/loss
           if(ranNum === computerGuess && count <= 2){
-            $("#result").html("You Win, you did it with " + count + " tries.");
+            if (count === 1){
+              $("#result").html("You Win, you found it with " + count + " try.");
+            }
+            else{
+              $("#result").html("You Win, you found it with " + count + " tries.");
+            }
             timeout = true;
             setTimeout(function(){reset()},timer);
           }
