@@ -121,7 +121,7 @@
             timeout = true;
             setTimeout(function(){reset()},timer);
           }
-          else if (count > 2 || guessArray.indexOf(undefined) !== -1){
+          else if (count >= 2 || guessArray.indexOf(computerGuess) !== -1){
             $("#result").html("You lost, try again!");
             console.log("reset",count);
             timeout = true;
