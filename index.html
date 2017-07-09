@@ -76,6 +76,9 @@
       // Initializes the computer guess number
       $("#computer-pick").html(computerGuess);
 
+      // Timeout game
+      var timeout = false;
+
       // Reset function to reset game
       var reset = function(){
         guessArray = [];
@@ -87,42 +90,47 @@
           $("#button-" + i).html("<h1>?</h1>");
         }
         $("#result").html("");
+        timeout = false;
       }
 
 
       // Here we create the on click event that gets the user"s pick
       $("button").on("click", function() {
+        if (timeout === false){
+          // Add code to have the computer guess a random number between 1 and 4
+          // Then determine which button was clicked
+          // Compare the computer and user guess
+          // Inform the user if the've guessed correctly or incorrectly
 
+
+          var id = parseInt(this.id.match(/([0-9])/g));
+          if (guessArray[id-1] === undefined){
+            var ranNum = Math.floor(Math.random()*4+1);
+            while(guessArray.indexOf(ranNum) !== -1){
+              ranNum = Math.floor(Math.random()*4+1);
+              console.log("I'm in a while loop!")
+            }
+            count++;
+            guessArray[id-1] = ranNum;
+            $("#" + this.id).html("<h1>" + ranNum + "</h1>");
+          }
+
+          // Win/loss
+          if(ranNum === computerGuess && count <= 2){
+            $("#result").html("You Win, you did it with " + count + " tries.");
+            timeout = true;
+            setTimeout(function(){reset()},timer);
+          }
+          else if (count > 2 || guessArray.indexOf(undefined) !== -1){
+            $("#result").html("You lost, try again!");
+            console.log("reset",count);
+            timeout = true;
+            setTimeout(function(){reset()},timer);
+          }
+
+        }
         console.log("You clicked a button!!");
 
-        // Add code to have the computer guess a random number between 1 and 4
-        // Then determine which button was clicked
-        // Compare the computer and user guess
-        // Inform the user if the've guessed correctly or incorrectly
-
-
-        var id = parseInt(this.id.match(/([0-9])/g));
-        if (guessArray[id-1] === undefined){
-          var ranNum = Math.floor(Math.random()*4+1);
-          while(guessArray.indexOf(ranNum) !== -1){
-            ranNum = Math.floor(Math.random()*4+1);
-            console.log("I'm in a while loop!")
-          }
-          count++;
-          guessArray[id-1] = ranNum;
-          $("#" + this.id).html("<h1>" + ranNum + "</h1>");
-        }
-
-        // Win/loss
-        if(ranNum === computerGuess && count <= 2){
-          $("#result").html("You Win, you did it with " + count + " tries.");
-          setTimeout(function(){reset()},timer);
-        }
-        else if (count > 2 || guessArray.indexOf(undefined) !== -1){
-          $("#result").html("You lost, try again!");
-          console.log("reset",count);
-          setTimeout(function(){reset()},timer);
-        }
 
 
       });
